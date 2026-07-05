@@ -7,15 +7,15 @@ $tituloPagina = 'Relatórios';
 
 $periodo = $_GET['periodo'] ?? 'hoje';
 $filtroData = match ($periodo) {
-    'semana' => "criado_em >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
-    'mes'    => "criado_em >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)",
-    default  => "DATE(criado_em) = CURDATE()",
+    'semana' => "p.criado_em >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
+    'mes'    => "p.criado_em >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)",
+    default  => "DATE(p.criado_em) = CURDATE()",
 };
 
-$totalPedidos = $pdo->query("SELECT COUNT(*) FROM pedidos WHERE $filtroData")->fetchColumn();
-$faturamento  = $pdo->query("SELECT COALESCE(SUM(total),0) FROM pedidos WHERE $filtroData AND status != 'cancelado'")->fetchColumn();
+$totalPedidos = $pdo->query("SELECT COUNT(*) FROM pedidos p WHERE $filtroData")->fetchColumn();
+$faturamento  = $pdo->query("SELECT COALESCE(SUM(total),0) FROM pedidos p WHERE $filtroData AND status != 'cancelado'")->fetchColumn();
 $ticketMedio  = $totalPedidos > 0 ? $faturamento / $totalPedidos : 0;
-$entregues    = $pdo->query("SELECT COUNT(*) FROM pedidos WHERE $filtroData AND status='entregue'")->fetchColumn();
+$entregues    = $pdo->query("SELECT COUNT(*) FROM pedidos p WHERE $filtroData AND status='entregue'")->fetchColumn();
 $taxaEntrega  = $totalPedidos > 0 ? round(($entregues / $totalPedidos) * 100) : 0;
 
 $maisVendidos = $pdo->query("
@@ -26,8 +26,8 @@ $maisVendidos = $pdo->query("
     GROUP BY pr.id ORDER BY qtd DESC
 ")->fetchAll();
 
-$statusResumo = $pdo->query("SELECT status, COUNT(*) AS total FROM pedidos WHERE $filtroData GROUP BY status")->fetchAll(PDO::FETCH_KEY_PAIR);
-$pagamentos = $pdo->query("SELECT forma_pagamento, COUNT(*) AS total FROM pedidos WHERE $filtroData GROUP BY forma_pagamento")->fetchAll(PDO::FETCH_KEY_PAIR);
+$statusResumo = $pdo->query("SELECT status, COUNT(*) AS total FROM pedidos p WHERE $filtroData GROUP BY status")->fetchAll(PDO::FETCH_KEY_PAIR);
+$pagamentos = $pdo->query("SELECT forma_pagamento, COUNT(*) AS total FROM pedidos p WHERE $filtroData GROUP BY forma_pagamento")->fetchAll(PDO::FETCH_KEY_PAIR);
 
 require __DIR__ . '/../includes/header.php';
 ?>
