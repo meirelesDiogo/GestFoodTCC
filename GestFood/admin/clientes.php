@@ -66,7 +66,7 @@ require __DIR__ . '/../includes/header.php';
                 <td><?= htmlspecialchars($c['endereco']) ?><?= $c['numero'] ? ', '.htmlspecialchars($c['numero']) : '' ?></td>
                 <td><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($c['bairro']) ?></td>
                 <td>
-                    <a href="?editar=<?= $c['id'] ?>" class="btn btn-light-orange" data-bs-toggle="modal" data-bs-target="#modalCliente" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                    <a href="?editar=<?= $c['id'] ?>" class="btn btn-light-orange"title="Editar"><i class="bi bi-pencil-square"></i></a>
                     <a href="?excluir=<?= $c['id'] ?>" class="btn btn-light-red" data-confirm="Excluir este cliente?" title="Excluir"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>

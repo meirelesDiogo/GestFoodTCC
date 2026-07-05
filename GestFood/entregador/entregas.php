@@ -72,5 +72,30 @@ require __DIR__ . '/../includes/header.php';
     <?php endforeach; ?>
     <?php if (!$disponiveis): ?><p style="color:#999;">Nenhum pedido disponível no momento.</p><?php endif; ?>
 </div>
+<?php if ($minhasEntregas): ?>
+<script>
+function enviarLocalizacao() {
+    if (!navigator.geolocation) return;
 
+    navigator.geolocation.getCurrentPosition(
+        function (pos) {
+            fetch('../api/atualizar_localizacao.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'lat=' + pos.coords.latitude + '&lng=' + pos.coords.longitude
+            }).catch(function (err) {
+                console.error('Falha ao enviar localização:', err);
+            });
+        },
+        function (err) {
+            console.warn('Não foi possível obter localização:', err.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+    );
+}
+
+enviarLocalizacao();
+setInterval(enviarLocalizacao, 15000); // atualiza a cada 15 segundos
+</script>
+<?php endif; ?>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

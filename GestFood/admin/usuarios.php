@@ -78,7 +78,7 @@ require __DIR__ . '/../includes/header.php';
                 <td><span class="badge-status badge-em_entrega"><?= $tiposLabel[$u['tipo']] ?></span></td>
                 <td><?= htmlspecialchars($u['telefone']) ?></td>
                 <td>
-                    <a href="?editar=<?= $u['id'] ?>" class="btn btn-light-orange" data-bs-toggle="modal" data-bs-target="#modalUsuario" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                    <a href="?editar=<?= $u['id'] ?>" class="btn btn-light-orange"title="Editar"><i class="bi bi-pencil-square"></i></a>
                     <a href="?excluir=<?= $u['id'] ?>" class="btn btn-light-red" data-confirm="Excluir este usuário definitivamente? Essa ação não pode ser desfeita." title="Excluir"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>

@@ -63,7 +63,7 @@ require __DIR__ . '/../includes/header.php';
                     <strong><?= $p['tempo_preparo'] ?> min</strong>
                 </div>
                 <div style="display:flex;gap:8px;">
-                    <a href="?editar=<?= $p['id'] ?>" class="btn btn-light-orange" style="flex:1;text-align:center;" data-bs-toggle="modal" data-bs-target="#modalProduto"><i class="bi bi-pencil-square"></i> Editar</a>
+                    <a href="?editar=<?= $p['id'] ?>" class="btn btn-light-orange" style="flex:1;text-align:center;"><i class="bi bi-pencil-square"></i> Editar</a>
                     <a href="?excluir=<?= $p['id'] ?>" class="btn btn-light-red" style="flex:1;text-align:center;" data-confirm="Excluir este produto?"><i class="bi bi-trash"></i> Excluir</a>
                 </div>
             </div>

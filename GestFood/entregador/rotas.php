@@ -68,4 +68,5 @@ const ENDERECO_LOJA =
 </script>
 
 <script src="../assets/js/rotas.js"></script>
+
 <?php require __DIR__ . '/../includes/footer.php'; ?>
