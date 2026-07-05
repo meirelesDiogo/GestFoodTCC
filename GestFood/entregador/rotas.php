@@ -22,6 +22,7 @@ require __DIR__ . '/../includes/header.php';
     <span style="color:#6b7280;font-size:13.5px;">Endereços das entregas em andamento, na ordem de retirada.</span>
 </div>
 
+
 <?php if ($paradas): ?>
     <div class="gf-panel">
         <?php foreach ($paradas as $i => $p): ?>

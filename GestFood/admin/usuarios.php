@@ -23,10 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+
 if (isset($_GET['excluir'])) {
-    $pdo->prepare("UPDATE usuarios SET ativo = 0 WHERE id = ?")->execute([$_GET['excluir']]);
-    header('Location: usuarios.php');
-    exit;
+    try {
+        $pdo->prepare("DELETE FROM usuarios WHERE id = ?")->execute([$_GET['excluir']]);
+        header('Location: usuarios.php');
+        exit;
+    } catch (PDOException $e) {
+        if ($e->getCode() === '23000') {
+            header('Location: usuarios.php?erro=vinculado');
+            exit;
+        }
+        throw $e;
+    }
 }
 
 $usuarioEdicao = null;
@@ -41,6 +50,14 @@ $tiposLabel = ['admin'=>'Administrador','atendente'=>'Atendente','producao'=>'Pr
 
 require __DIR__ . '/../includes/header.php';
 ?>
+
+<?php if (($_GET['erro'] ?? '') === 'vinculado'): ?>
+    <div class="gf-panel" style="background:#fde8e6;color:#c0392b;">
+        <i class="bi bi-exclamation-circle"></i>
+        Não é possível excluir este usuário porque ele já possui pedidos ou entregas vinculadas no sistema.
+        Transfira esses registros para outro usuário antes de excluir, ou apenas o desative editando o cadastro.
+    </div>
+<?php endif; ?>
 
 <div class="gf-panel" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
@@ -62,7 +79,7 @@ require __DIR__ . '/../includes/header.php';
                 <td><?= htmlspecialchars($u['telefone']) ?></td>
                 <td>
                     <a href="?editar=<?= $u['id'] ?>" class="btn btn-light-orange" data-bs-toggle="modal" data-bs-target="#modalUsuario" title="Editar"><i class="bi bi-pencil-square"></i></a>
-                    <a href="?excluir=<?= $u['id'] ?>" class="btn btn-light-red" data-confirm="Desativar este usuário?" title="Desativar"><i class="bi bi-trash"></i></a>
+                    <a href="?excluir=<?= $u['id'] ?>" class="btn btn-light-red" data-confirm="Excluir este usuário definitivamente? Essa ação não pode ser desfeita." title="Excluir"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>
