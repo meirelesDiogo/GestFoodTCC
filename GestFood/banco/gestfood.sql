@@ -109,6 +109,7 @@ CREATE TABLE entregas (
     FOREIGN KEY (entregador_id) REFERENCES usuarios(id)
 ) ENGINE=InnoDB;
 
+
 -- ---------------------------------------------------
 -- Tabela: cupons
 -- ---------------------------------------------------
