@@ -3,12 +3,52 @@
 // =====================================================
 
 // Abrir/fechar sidebar no mobile
+function aplicarMascaraTelefone(input) {
+    if (!input) return;
+
+    const formatar = () => {
+        const numeros = input.value.replace(/\D/g, '').slice(0, 11);
+        let valorFormatado = '';
+
+        if (!numeros) {
+            input.value = '';
+            return;
+        }
+
+        valorFormatado = `(${numeros.slice(0, 2)}) `;
+
+        if (numeros.length <= 10) {
+            valorFormatado += numeros.slice(2, 6);
+            if (numeros.length > 6) {
+                valorFormatado += `-${numeros.slice(6, 10)}`;
+            }
+        } else {
+            valorFormatado += numeros.slice(2, 7);
+            if (numeros.length > 7) {
+                valorFormatado += `-${numeros.slice(7, 11)}`;
+            }
+        }
+
+        input.value = valorFormatado;
+    };
+
+    if (!input.dataset.mascaraTelefoneInicializada) {
+        input.addEventListener('input', formatar);
+        input.addEventListener('blur', formatar);
+        input.dataset.mascaraTelefoneInicializada = 'true';
+    }
+
+    formatar();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const toggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('gfSidebar');
     if (toggle && sidebar) {
         toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
     }
+
+    document.querySelectorAll('input[name="telefone"], input[data-mascara-telefone]').forEach(aplicarMascaraTelefone);
 
     // Filtro de busca simples (clientes / produtos)
     const buscaInput = document.querySelector('[data-busca]');

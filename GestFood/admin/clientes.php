@@ -88,9 +88,35 @@ require __DIR__ . '/../includes/header.php';
                     <label class="form-label">Nome</label>
                     <input class="form-control" name="nome" required placeholder="Nome completo" value="<?= htmlspecialchars($clienteEdicao['nome'] ?? '') ?>">
                     <label class="form-label">Telefone</label>
-                    <input class="form-control" name="telefone" required placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($clienteEdicao['telefone'] ?? '') ?>">
+                    <input class="form-control" id="telefone" name="telefone" type="tel" inputmode="numeric" data-mascara-telefone="true" required placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($clienteEdicao['telefone'] ?? '') ?>">
+                    <script>
+                    const telefone = document.getElementById("telefone");
+                    if (telefone) {
+                        telefone.addEventListener("input", function (e) {
+                            let valor = e.target.value.replace(/\D/g, "");
+                            if (valor.length > 11) valor = valor.slice(0, 11);
+                            if (valor.length > 10) {
+                                valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+                            } else {
+                                valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                            }
+                            e.target.value = valor;
+                        });
+                    }
+                    </script>
                     <label class="form-label">CEP</label>
-                    <input class="form-control" id="cepCliente" name="cep" placeholder="12345-678" onblur="buscarCep('cepCliente',{endereco:'enderecoCliente',bairro:'bairroCliente',cidade:'cidadeCliente',estado:'estadoCliente'})" value="<?= htmlspecialchars($clienteEdicao['cep'] ?? '') ?>">
+                    <input class="form-control" id="cep" name="cep" maxlength="9" placeholder="12345-678" onblur="buscarCep('cep',{endereco:'enderecoCliente',bairro:'bairroCliente',cidade:'cidadeCliente',estado:'estadoCliente'})" value="<?= htmlspecialchars($clienteEdicao['cep'] ?? '') ?>">
+                    <script>
+                    const cep = document.getElementById("cep");
+                    if (cep) {
+                        cep.addEventListener("input", function (e) {
+                            let valor = e.target.value.replace(/\D/g, "");
+                            if (valor.length > 8) valor = valor.slice(0, 8);
+                            valor = valor.replace(/^(\d{5})(\d{0,3})$/, "$1-$2");
+                            e.target.value = valor;
+                        });
+                    }
+                    </script>
                     <label class="form-label">Endereço</label>
                     <input class="form-control" id="enderecoCliente" name="endereco" placeholder="Rua/Avenida..." value="<?= htmlspecialchars($clienteEdicao['endereco'] ?? '') ?>">
                     <div style="display:flex;gap:10px;">

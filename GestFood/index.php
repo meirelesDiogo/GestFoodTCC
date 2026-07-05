@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
             <div class="login-demo-note">
                 <i class="bi bi-info-circle"></i>
-                Modo demonstração: qualquer senha é aceita. Clientes fazem login informando o telefone;
+                Clientes fazem login informando o telefone;
                 se for a primeira vez, o cadastro é criado automaticamente.
             </div>
         </div>
@@ -118,10 +118,16 @@ function atualizarCampoLogin() {
         label.textContent = 'Telefone';
         campo.placeholder = '(XX) 9XXXX-XXXX';
         campo.type = 'tel';
+        campo.setAttribute('inputmode', 'numeric');
+        campo.setAttribute('data-mascara-telefone', 'true');
+        if (typeof aplicarMascaraTelefone === 'function') {
+            aplicarMascaraTelefone(campo);
+        }
     } else {
         label.textContent = 'E-mail';
         campo.placeholder = 'seu@email.com';
         campo.type = 'text';
+        campo.removeAttribute('data-mascara-telefone');
     }
 }
 </script>

@@ -89,7 +89,22 @@ require __DIR__ . '/../includes/header.php';
                         <?php endforeach; ?>
                     </select>
                     <label class="form-label">Telefone</label>
-                    <input class="form-control" name="telefone" placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($usuarioEdicao['telefone'] ?? '') ?>">
+                    <input class="form-control" id="telefone" name="telefone" type="tel" inputmode="numeric" data-mascara-telefone="true" placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($usuarioEdicao['telefone'] ?? '') ?>">
+                    <script>
+                    const telefone = document.getElementById("telefone");
+                    if (telefone) {
+                        telefone.addEventListener("input", function (e) {
+                            let valor = e.target.value.replace(/\D/g, "");
+                            if (valor.length > 11) valor = valor.slice(0, 11);
+                            if (valor.length > 10) {
+                                valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+                            } else {
+                                valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                            }
+                            e.target.value = valor;
+                        });
+                    }
+                    </script>
                     <label class="form-label">Senha <?= $usuarioEdicao ? '(deixe em branco para manter)' : '' ?></label>
                     <div class="campo-senha-wrap">
                         <input class="form-control" type="password" name="senha" id="senhaUsuario" placeholder="Padrão: 123456">

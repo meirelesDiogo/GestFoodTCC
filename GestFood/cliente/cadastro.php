@@ -40,9 +40,35 @@ $telefone = $_GET['telefone'] ?? '';
                 <label class="form-label">Nome completo</label>
                 <input class="form-control" name="nome" required placeholder="Seu nome completo">
                 <label class="form-label">Telefone</label>
-                <input class="form-control" name="telefone" required placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($telefone) ?>">
+                <input class="form-control" id="telefone" name="telefone" type="tel" inputmode="numeric" data-mascara-telefone="true" required placeholder="(XX) 9XXXX-XXXX" value="<?= htmlspecialchars($telefone) ?>">
+                <script>
+                const telefone = document.getElementById("telefone");
+                if (telefone) {
+                    telefone.addEventListener("input", function (e) {
+                        let valor = e.target.value.replace(/\D/g, "");
+                        if (valor.length > 11) valor = valor.slice(0, 11);
+                        if (valor.length > 10) {
+                            valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+                        } else {
+                            valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                        }
+                        e.target.value = valor;
+                    });
+                }
+                </script>
                 <label class="form-label">CEP</label>
-                <input class="form-control" id="cepNovo" name="cep" placeholder="12345-678" onblur="buscarCep('cepNovo',{endereco:'enderecoNovo',bairro:'bairroNovo',cidade:'cidadeNovo',estado:'estadoNovo'})">
+                <input class="form-control" id="cep" name="cep" maxlength="9" placeholder="12345-678" onblur="buscarCep('cep',{endereco:'enderecoNovo',bairro:'bairroNovo',cidade:'cidadeNovo',estado:'estadoNovo'})">
+                <script>
+                const cep = document.getElementById("cep");
+                if (cep) {
+                    cep.addEventListener("input", function (e) {
+                        let valor = e.target.value.replace(/\D/g, "");
+                        if (valor.length > 8) valor = valor.slice(0, 8);
+                        valor = valor.replace(/^(\d{5})(\d{0,3})$/, "$1-$2");
+                        e.target.value = valor;
+                    });
+                }
+                </script>
                 <label class="form-label">Endereço</label>
                 <input class="form-control" id="enderecoNovo" name="endereco" placeholder="Rua/Avenida...">
                 <div style="display:flex;gap:10px;">
