@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-page">
         <div class="login-card">
             <div class="login-card__header">
-                <div>
+                
                 <h1>GestFood</h1>
                 <p>X Salgados · Sistema de Gestão</p>
             </div>

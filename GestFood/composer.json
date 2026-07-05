@@ -1,0 +1,17 @@
+{
+    "name": "didia/gest-food",
+    "autoload": {
+        "psr-4": {
+            "Didia\\GestFood\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Diogo Alexandre",
+            "email": "didialexandre1017@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
